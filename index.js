@@ -16,7 +16,9 @@ function Book(title, author, pages, status) {
 
 
 function addBookToLibrary(title, author, pages, status) {
+    
     const book = new Book(title, author, pages, status)
+    console.log(book)
     myLibrary.push(book)
 }
 
@@ -119,15 +121,43 @@ displayBooks()
 // change status of book
 
 container.addEventListener('click', (e) => {
-    
-    const bookId = (e.target.dataset.id)  
-    for (let book of myLibrary){
-        if (book.id === bookId){
+
+    const bookId = (e.target.dataset.id)
+    for (let book of myLibrary) {
+        if (book.id === bookId) {
             book.status = !(book.status)
             container.innerHTML = ''
             displayBooks()
             return
         }
     }
-      
+
 })
+
+
+// form submission
+form.addEventListener('submit', (e) => {
+    e.preventDefault()
+    const title = form.elements['title'].value
+    const author = form.elements['author'].value
+    const pages = form.elements['pages'].value
+    const status = form.elements['status'].value
+
+    if (title.length < 2) {
+        return alert('title should be more than 2 words')
+    }
+    else if (author.length < 2) {
+        return alert('author name should be more than 2 words')
+    }
+    else if (!(Number.isInteger(Number(pages))) || pages.length < 0) {
+        return alert('Pages are required and should be positive integer')
+    }
+
+    addBookToLibrary(title, author, pages, status)
+
+    container.innerHTML = ''
+    displayBooks()
+    form.submit()
+})
+
+
