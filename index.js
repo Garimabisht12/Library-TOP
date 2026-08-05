@@ -116,4 +116,18 @@ function displayBooks() {
 displayBooks()
 
 
+// change status of book
 
+container.addEventListener('click', (e) => {
+    
+    const bookId = (e.target.dataset.id)  
+    for (let book of myLibrary){
+        if (book.id === bookId){
+            book.status = !(book.status)
+            container.innerHTML = ''
+            displayBooks()
+            return
+        }
+    }
+      
+})
