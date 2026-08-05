@@ -1,91 +1,119 @@
+
+// create new book
+
+function Book(title, author, pages, status) {
+    // the constructor...
+    if (!new.target) {
+        console.log("Use 'new' to create a new Book")
+        return
+    }
+    this.id = crypto.randomUUID()
+    this.title = title,
+        this.author = author,
+        this.pages = pages,
+        this.status = status
+}
+
+
+function addBookToLibrary(title, author, pages, status) {
+    const book = new Book(title, author, pages, status)
+    myLibrary.push(book)
+}
+
+// dom Manipulation
+
 const myLibrary = [
     {
         id: crypto.randomUUID(),
         title: 'Atomic Habits',
         author: 'James Clear',
         pages: 320,
-        read: true,
+        status: true,
     },
     {
         id: crypto.randomUUID(),
         title: 'The Alchemist',
         author: 'Paulo Coelho',
         pages: 208,
-        read: true,
+        status: true,
     },
     {
         id: crypto.randomUUID(),
         title: 'Deep Work',
         author: 'Cal Newport',
         pages: 304,
-        read: false,
+        status: false,
     },
     {
         id: crypto.randomUUID(),
         title: 'The Psychology of Money',
         author: 'Morgan Housel',
         pages: 256,
-        read: true,
+        status: true,
     },
     {
         id: crypto.randomUUID(),
         title: 'Ikigai',
         author: 'Héctor García',
         pages: 208,
-        read: false,
+        status: false,
     },
     {
         id: crypto.randomUUID(),
         title: 'The Midnight Library',
         author: 'Matt Haig',
         pages: 304,
-        read: true,
+        status: true,
     },
-    {
-        id: crypto.randomUUID(),
-        title: 'Think Like a Monk',
-        author: 'Jay Shetty',
-        pages: 352,
-        read: false,
-    },
-    {
-        id: crypto.randomUUID(),
-        title: 'Rich Dad Poor Dad',
-        author: 'Robert T. Kiyosaki',
-        pages: 336,
-        read: true,
-    },
-    {
-        id: crypto.randomUUID(),
-        title: 'The Mountain Is You',
-        author: 'Brianna Wiest',
-        pages: 248,
-        read: false,
-    },
-    {
-        id: crypto.randomUUID(),
-        title: 'The Hobbit',
-        author: 'J.R.R. Tolkien',
-        pages: 310,
-        read: true,
-    },
+
+
 ];
 
+const container = document.querySelector('#container')
+const form = document.querySelector('form')
 
 
 
-function Book(title, author, pages, read ) {
-  // the constructor...
-  this.id = crypto.randomUUID()
-  this.title = title,
-  this.author = author,
-  this.pages = pages,
-  this.read = read
+// display books to user
+
+
+// create a card for a book object
+function addCard(id, title, author, pages, status) {
+    const card = document.createElement('div')
+    const buttonDiv = document.createElement('div')
+    const titleTag = document.createElement('p')
+    const authorTag = document.createElement('p')
+    const pagesTag = document.createElement('p')
+    const statusRead = document.createElement('p')
+    const removeButton = document.createElement('button')
+    const changeStatus = document.createElement('button')
+
+    removeButton.textContent = 'Remove'
+    removeButton.dataset.id = id
+
+    changeStatus.textContent = 'Change Status'
+    changeStatus.id = 'statusBtn'
+    changeStatus.dataset.id = id
+
+    titleTag.textContent = title
+    authorTag.textContent = author
+    pagesTag.textContent = pages
+    statusRead.textContent = (status && 'Finished') || 'In progress'
+    statusRead.classList.add('status')
+
+    card.classList.add('card')
+    buttonDiv.classList.add('btnDiv')
+    buttonDiv.append(changeStatus, removeButton)
+    card.append(titleTag, authorTag, pagesTag, statusRead, buttonDiv)
+    container.appendChild(card)
 }
 
-
-function addBookToLibrary(title, author, pages, read) {
-const book = new Book(title, author, pages, read)
-myLibrary.push(book)
-
+function displayBooks() {
+    for (const book of myLibrary) {
+        addCard(book.id, book.title, book.author, book.pages, book.status)
+    }
 }
+displayBooks()
+
+
+
