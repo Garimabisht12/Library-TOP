@@ -1,25 +1,7 @@
 const container = document.querySelector('#container')
 const form = document.querySelector('form')
 
-let myLibrary = [
-    {
-        id: crypto.randomUUID(),
-        title: 'Atomic Habits',
-        author: 'James Clear',
-        pages: 320,
-        status: true,
-    },
-    {
-        id: crypto.randomUUID(),
-        title: 'The Alchemist',
-        author: 'Paulo Coelho',
-        pages: 208,
-        status: true,
-    },
-
-
-
-];
+let myLibrary = [];
 // create new book
 
 function Book(title, author, pages, status) {
@@ -35,6 +17,10 @@ function Book(title, author, pages, status) {
         this.status = status
 }
 
+Book.prototype.changeStatus = function () {
+    this.status = !this.status
+}
+
 
 function addBookToLibrary(title, author, pages, status) {
 
@@ -42,6 +28,9 @@ function addBookToLibrary(title, author, pages, status) {
     console.log(book)
     myLibrary.push(book)
 }
+
+addBookToLibrary('Atomic Habits', 'James Clear', 320, true)
+addBookToLibrary('The Alchemist', 'Paulo Coelho', 208, true)
 
 // dom Manipulation
 
@@ -84,7 +73,7 @@ function displayBooks() {
         addCard(book.id, book.title, book.author, book.pages, book.status)
     }
 }
-displayBooks()
+
 
 
 // update book
@@ -93,12 +82,10 @@ container.addEventListener('click', (e) => {
     const btn = (e.target.id)
 
     if (btn === 'statusBtn') {
-        const bookId = e.target.dataset.id
         for (let book of myLibrary) {
-            if (book.id === bookId) {
-                book.status = !(book.status)
-                container.innerHTML = ''
-                displayBooks()
+            if (book.id === e.target.dataset.id) {
+                book.changeStatus()
+                updateContainer()
                 return
             }
         }
@@ -109,12 +96,8 @@ container.addEventListener('click', (e) => {
 
     if (btn == 'removeBtn') {
         myLibrary = myLibrary.filter(obj => obj.id !== e.target.dataset.id)
-        container.innerHTML = ''
-        displayBooks()
+        updateContainer()
         return
-
-
-
     }
 })
 
@@ -146,3 +129,9 @@ form.addEventListener('submit', (e) => {
 
 
 
+const updateContainer = () => {
+    container.innerHTML = ''
+    displayBooks()
+}
+
+updateContainer();
