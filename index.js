@@ -1,4 +1,25 @@
+const container = document.querySelector('#container')
+const form = document.querySelector('form')
 
+let myLibrary = [
+    {
+        id: crypto.randomUUID(),
+        title: 'Atomic Habits',
+        author: 'James Clear',
+        pages: 320,
+        status: true,
+    },
+    {
+        id: crypto.randomUUID(),
+        title: 'The Alchemist',
+        author: 'Paulo Coelho',
+        pages: 208,
+        status: true,
+    },
+
+
+
+];
 // create new book
 
 function Book(title, author, pages, status) {
@@ -24,62 +45,8 @@ function addBookToLibrary(title, author, pages, status) {
 
 // dom Manipulation
 
-const myLibrary = [
-    {
-        id: crypto.randomUUID(),
-        title: 'Atomic Habits',
-        author: 'James Clear',
-        pages: 320,
-        status: true,
-    },
-    {
-        id: crypto.randomUUID(),
-        title: 'The Alchemist',
-        author: 'Paulo Coelho',
-        pages: 208,
-        status: true,
-    },
-    {
-        id: crypto.randomUUID(),
-        title: 'Deep Work',
-        author: 'Cal Newport',
-        pages: 304,
-        status: false,
-    },
-    {
-        id: crypto.randomUUID(),
-        title: 'The Psychology of Money',
-        author: 'Morgan Housel',
-        pages: 256,
-        status: true,
-    },
-    {
-        id: crypto.randomUUID(),
-        title: 'Ikigai',
-        author: 'Héctor García',
-        pages: 208,
-        status: false,
-    },
-    {
-        id: crypto.randomUUID(),
-        title: 'The Midnight Library',
-        author: 'Matt Haig',
-        pages: 304,
-        status: true,
-    },
 
-
-];
-
-const container = document.querySelector('#container')
-const form = document.querySelector('form')
-
-
-
-// display books to user
-
-
-// create a card for a book object
+// create display for books
 function addCard(id, title, author, pages, status) {
     const card = document.createElement('div')
     const buttonDiv = document.createElement('div')
@@ -92,6 +59,8 @@ function addCard(id, title, author, pages, status) {
 
     removeButton.textContent = 'Remove'
     removeButton.dataset.id = id
+    removeButton.id = 'removeBtn'
+
 
     changeStatus.textContent = 'Change Status'
     changeStatus.id = 'statusBtn'
@@ -118,12 +87,12 @@ function displayBooks() {
 displayBooks()
 
 
-// change status of book
+// update book
 
 container.addEventListener('click', (e) => {
-    const statusBtn = (e.target.id)
-   
-    if (statusBtn === 'statusBtn') {
+    const btn = (e.target.id)
+
+    if (btn === 'statusBtn') {
         const bookId = e.target.dataset.id
         for (let book of myLibrary) {
             if (book.id === bookId) {
@@ -135,10 +104,22 @@ container.addEventListener('click', (e) => {
         }
 
     }
+
+    // remove books
+
+    if (btn == 'removeBtn') {
+        myLibrary = myLibrary.filter(obj => obj.id !== e.target.dataset.id)
+        container.innerHTML = ''
+        displayBooks()
+        return
+
+
+
+    }
 })
 
 
-// form submission
+// add books
 form.addEventListener('submit', (e) => {
     e.preventDefault()
     const title = form.elements['title'].value
@@ -162,5 +143,6 @@ form.addEventListener('submit', (e) => {
     displayBooks()
     form.submit()
 })
+
 
 
