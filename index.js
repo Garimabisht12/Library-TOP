@@ -16,7 +16,7 @@ function Book(title, author, pages, status) {
 
 
 function addBookToLibrary(title, author, pages, status) {
-    
+
     const book = new Book(title, author, pages, status)
     console.log(book)
     myLibrary.push(book)
@@ -121,17 +121,20 @@ displayBooks()
 // change status of book
 
 container.addEventListener('click', (e) => {
-
-    const bookId = (e.target.dataset.id)
-    for (let book of myLibrary) {
-        if (book.id === bookId) {
-            book.status = !(book.status)
-            container.innerHTML = ''
-            displayBooks()
-            return
+    const statusBtn = (e.target.id)
+   
+    if (statusBtn === 'statusBtn') {
+        const bookId = e.target.dataset.id
+        for (let book of myLibrary) {
+            if (book.id === bookId) {
+                book.status = !(book.status)
+                container.innerHTML = ''
+                displayBooks()
+                return
+            }
         }
-    }
 
+    }
 })
 
 
