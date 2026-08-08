@@ -9,36 +9,42 @@
 </head>
 
 <body>
+    <div class="header">
+        <h1>Library App</h1>
 
-    <button command="show-modal" commandfor="my-dialog">Open dialog</button>
+    </div>
 
-    <dialog id="my-dialog">
-        <h1>Add a new book to your library</h1>
-        <button commandfor="my-dialog" command="close">Close</button>
-        <form action="" method="dialog">
-            <label for="title">Title</label>
-            <input type="text" name="title" autofocus>
+    <div class="content">
 
-            <label for="author">Author</label>
-            <input type="text" name="author">
+        <button command="show-modal" commandfor="my-dialog" class="addBtn">Add New Book</button>
 
-            <label for="pages">Pages</label>
-            <input type="number" name="pages">
+        <dialog id="my-dialog">
+            <h1>Enter Details</h1>
+            <form action="" method="dialog">
+                <label for="title">Title</label>
+                <input type="text" name="title" autofocus>
 
-            <label for="status">Read</label>
-            <input type="radio" name="status" value="true" id="status"> True
-            <input type="radio" name="status" value="false" id="status" checked> False
+                <label for="author">Author</label>
+                <input type="text" name="author">
+
+                <label for="pages">Pages</label>
+                <input type="number" name="pages">
+
+                <label for="status">Read
+                    <input type="radio" name="status" value="true" id="status"> True
+                    <input type="radio" name="status" value="false" id="status" checked> False
+
+                </label>
+                <button>Add Book</button>
+            </form>
+            <button commandfor="my-dialog" command="close">Close</button>
+        </dialog>
 
 
-            <button>Add Book</button>
-        </form>
-    </dialog>
 
+        <div class="grid" id="container">
 
-
-    <h1>Library App</h1>
-    <div class="grid" id="container">
-
+        </div>
     </div>
 
     <script src="index.js"></script>
