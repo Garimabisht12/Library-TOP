@@ -4,28 +4,43 @@ const form = document.querySelector('form')
 let myLibrary = [];
 // create new book
 
-function Book(title, author, pages, status) {
-    // the constructor...
-    if (!new.target) {
-        console.log("Use 'new' to create a new Book")
-        return
-    }
-    this.id = crypto.randomUUID()
-    this.title = title,
-        this.author = author,
-        this.pages = pages,
+class Book {
+    constructor(title, author, pages, status) {
+        this.title = title
+        this.author = author
+        this.pages = pages
         this.status = status
+        this.id = crypto.randomUUID()
+
+    }
+
+    changeStatus = () => {
+        this.status = !(this.status)
+    }
 }
 
-Book.prototype.changeStatus = function () {
-    this.status = !this.status
-}
+
+// function Book(title, author, pages, status) {
+//     // the constructor...
+//     if (!new.target) {
+//         console.log("Use 'new' to create a new Book")
+//         return
+//     }
+//     this.id = crypto.randomUUID()
+//     this.title = title,
+//         this.author = author,
+//         this.pages = pages,
+//         this.status = status
+// }
+
+// Book.prototype.changeStatus = function () {
+//     this.status = !this.status
+// }
 
 
 function addBookToLibrary(title, author, pages, status) {
 
     const book = new Book(title, author, pages, status)
-    console.log(book)
     myLibrary.push(book)
 }
 
@@ -69,12 +84,11 @@ function addCard(id, title, author, pages, status) {
 }
 
 function displayBooks() {
+    container.innerHTML = ''
     for (const book of myLibrary) {
         addCard(book.id, book.title, book.author, book.pages, book.status)
     }
 }
-
-
 
 // update book
 
@@ -84,8 +98,9 @@ container.addEventListener('click', (e) => {
     if (btn === 'statusBtn') {
         for (let book of myLibrary) {
             if (book.id === e.target.dataset.id) {
+
                 book.changeStatus()
-                updateContainer()
+                displayBooks()
                 return
             }
         }
@@ -96,7 +111,7 @@ container.addEventListener('click', (e) => {
 
     if (btn == 'removeBtn') {
         myLibrary = myLibrary.filter(obj => obj.id !== e.target.dataset.id)
-        updateContainer()
+        displayBooks()
         return
     }
 })
@@ -120,18 +135,20 @@ form.addEventListener('submit', (e) => {
         return alert('Pages are required and should be positive integer')
     }
 
+
+
     addBookToLibrary(title, author, pages, status)
 
     container.innerHTML = ''
     displayBooks()
-    form.submit()
+
+    form.reset();
+    form.submit();
+
 })
 
 
 
-const updateContainer = () => {
-    container.innerHTML = ''
-    displayBooks()
-}
 
-updateContainer();
+
+displayBooks();
